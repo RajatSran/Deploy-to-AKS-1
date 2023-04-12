@@ -36,7 +36,7 @@ stages:
   dependsOn: Build
   variables:
     acrsecret: 703332388acr
-    acrdevurl: 'k8sacr.azurecr.io'
+    acrdevurl: '703332388acr.azurecr.io'
     replicaNo: 1
   jobs:
   - deployment: Deploy
