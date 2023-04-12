@@ -20,12 +20,11 @@ stages:
     - task: Docker@2
       displayName: Build an image
       inputs:
-        containerRegistry: 'K8SExamplesACR'
+        containerRegistry: 'k8sacr'
         repository: '$(imageRepo)'
         command: 'buildAndPush'
         Dockerfile: '$(Build.SourcesDirectory)/app/Dockerfile'
-        tags: |
-          $(tag)
+        tags: '$(tag)'
     - task: PublishPipelineArtifact@1
       inputs:
         targetPath: '$(Pipeline.Workspace)/s/kubernetes'
@@ -36,9 +35,9 @@ stages:
   displayName: Deploy to Dev
   dependsOn: Build
   variables:
-    acrsecret: k8sexamplesacrauth
-    acrdevurl: 'k8sexamplesacr.azurecr.io'
-    replicaNo: 3
+    acrsecret: 703332388acr
+    acrdevurl: 'k8sacr.azurecr.io'
+    replicaNo: 1
   jobs:
   - deployment: Deploy
     displayName: Deploy to AKS
@@ -60,7 +59,7 @@ stages:
               namespace: 'default'
               secretType: 'dockerRegistry'
               secretName: '$(acrsecret)'
-              dockerRegistryEndpoint: 'K8SExamplesACR'
+              dockerRegistryEndpoint: 'k8sacr'
           - task: replacetokens@3
             displayName: Replace Tokens
             inputs:
